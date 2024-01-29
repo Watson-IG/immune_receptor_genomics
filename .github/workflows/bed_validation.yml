@@ -1,0 +1,31 @@
+name: BED File Validation
+
+# Defines when the action will run. Triggers on pull request and push events for the main branch.
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
+jobs:
+  # This workflow contains a single job called "validate".
+  validate:
+    # The type of runner that the job will run on.
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
+    - uses: actions/checkout@v2
+
+    # Sets up a Python environment using the version 3.x (modify as needed).
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    # Runs the BED file validation script.
+    - name: Run BED File Validation Script
+      run: |
+        python ./test/check_beds.py

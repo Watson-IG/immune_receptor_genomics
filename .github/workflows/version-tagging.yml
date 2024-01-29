@@ -1,0 +1,29 @@
+name: Automated Version Tagging
+
+on:
+  push:
+    branches: 
+      - main  # or any other branch you want to automate this for
+
+jobs:
+  version-tagging:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Ensures history is available for tag creation
+
+    - name: Bump version and push tag
+      uses: mathieudutour/github-tag-action@v5.6
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        default_bump: patch  # Default bump type if no keyword is found
+        release_branches: main  # Branches where releases are created
+        custom_tag:  # Optional, use if you want a custom tag format
+      env:
+        # Configure commit message patterns for different bump types
+        MAJOR_PATTERN: 'MAJOR'
+        MINOR_PATTERN: 'MINOR'
+        PATCH_PATTERN: 'PATCH'

@@ -4,9 +4,9 @@ import csv
 
 GENE_WINDOW_SIZE_3 = 0
 GENE_WINDOW_SIZE_5 = 0
-dir = "../current"
+dir = "./current"
 sense = "+-"
-ref_seq = "merged_refseq.fasta"
+ref_seq = "./test/merged_refseq.fasta"
 
 def get_gene_type(label):
     gene = label.split('*')[0]

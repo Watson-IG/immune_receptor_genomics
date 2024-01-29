@@ -56,30 +56,30 @@ def read_beds(sense, dir, ref_seq):
             row = beds[refname][gene]
             if gene_type == 'V':
                 complete = True
-                for el in ['EXON_1', 'INTRON', 'EXON_2', 'HEPTAMER', 'SPACER', 'NONAMER']:
+                for el in ['exon_1', 'intron', 'exon_2', 'heptamer', 'spacer', 'nonamer']:
                     if el not in row:
                         sys.exit(f"element {el} missing from gene {gene} in file {refname}")
                         complete = False
 
                 if complete:
                     if sense == '+-':
-                        if row['NONAMER']['start'] > row['HEPTAMER']['start']:
+                        if row['nonamer']['start'] > row['heptamer']['start']:
                             g_s = 'end'
                             g_e = 'start'
                         else:
                             g_s = 'start'
                             g_e = 'end'
 
-                    if row['NONAMER'][g_e] != row['SPACER'][g_s]:
-                        sys.exit(f"maths problem in {gene}: row['NONAMER'][{g_e}] != row['SPACER'][{g_s}]")
-                    if row['SPACER'][g_e] != row['HEPTAMER'][g_s]:
-                        sys.exit(f"maths problem in {gene}: row['SPACER'][{g_e}] != row['HEPTAMER'][{g_s}]")
-                    if row['HEPTAMER'][g_e] != row['EXON_2'][g_s]:
-                        sys.exit(f"maths problem in {gene}: row['HEPTAMER'][{g_e}] != row['EXON_2'][{g_s}]")
-                    if row['EXON_2'][g_e] != row['INTRON'][g_s]:
-                        sys.exit(f"maths problem in {gene}: row['EXON_2'][{g_e}] != row['INTRON'][{g_s}]")
-                    if row['INTRON'][g_e] != row['EXON_1'][g_s]:
-                        sys.exit(f"maths problem in {gene}: row['INTRON'][{g_e}] != row['EXON_1'][{g_s}]")
+                    if row['nonamer'][g_e] != row['spacer'][g_s]:
+                        sys.exit(f"maths problem in {gene}: row['nonamer'][{g_e}] != row['spacer'][{g_s}]")
+                    if row['spacer'][g_e] != row['heptamer'][g_s]:
+                        sys.exit(f"maths problem in {gene}: row['spacer'][{g_e}] != row['heptamer'][{g_s}]")
+                    if row['heptamer'][g_e] != row['exon_2'][g_s]:
+                        sys.exit(f"maths problem in {gene}: row['heptamer'][{g_e}] != row['exon_2'][{g_s}]")
+                    if row['exon_2'][g_e] != row['intron'][g_s]:
+                        sys.exit(f"maths problem in {gene}: row['exon_2'][{g_e}] != row['intron'][{g_s}]")
+                    if row['intron'][g_e] != row['exon_1'][g_s]:
+                        sys.exit(f"maths problem in {gene}: row['intron'][{g_e}] != row['exon_1'][{g_s}]")
 
                 if 'GENE' in row:
                     row['GENE']['start'] = row['GENE']['start'] - GENE_WINDOW_SIZE_5
@@ -87,7 +87,7 @@ def read_beds(sense, dir, ref_seq):
 
                 row_sense = sense
                 if sense == '+-':
-                    if row['NONAMER']['start'] > row['HEPTAMER']['start']:
+                    if row['nonamer']['start'] > row['heptamer']['start']:
                         row_sense = '+'
                     else:
                         row_sense = '-'
@@ -95,24 +95,24 @@ def read_beds(sense, dir, ref_seq):
                 if row_sense == '-':
                     if 'V-REGION' not in row:
                         row['V-REGION'] = {}
-                        row['V-REGION']['start'] = row['EXON_2']['start']
-                        row['V-REGION']['end'] = row['EXON_2']['end'] - 11
+                        row['V-REGION']['start'] = row['exon_2']['start']
+                        row['V-REGION']['end'] = row['exon_2']['end'] - 11
                     if 'L-PART2' not in row:
                         row['L-PART2'] = {}
-                        row['L-PART2']['start'] = row['EXON_2']['end'] - 11
-                        row['L-PART2']['end'] = row['EXON_2']['end']
+                        row['L-PART2']['start'] = row['exon_2']['end'] - 11
+                        row['L-PART2']['end'] = row['exon_2']['end']
                 else:
                     if 'V-REGION' not in row:
                         row['V-REGION'] = {}
-                        row['V-REGION']['start'] = row['EXON_2']['start'] + 11
-                        row['V-REGION']['end'] = row['EXON_2']['end']
+                        row['V-REGION']['start'] = row['exon_2']['start'] + 11
+                        row['V-REGION']['end'] = row['exon_2']['end']
                     if 'L-PART2' not in row:
                         row['L-PART2'] = {}
-                        row['L-PART2']['start'] = row['EXON_2']['start']
-                        row['L-PART2']['end'] = row['EXON_2']['start'] + 11
+                        row['L-PART2']['start'] = row['exon_2']['start']
+                        row['L-PART2']['end'] = row['exon_2']['start'] + 11
 
             elif gene_type == 'J':
-                for el in ['HEPTAMER', 'SPACER', 'NONAMER']:
+                for el in ['heptamer', 'spacer', 'nonamer']:
                     complete = True
                     if el not in row:
                         print(f'element {el} missing from row {row}')
@@ -120,37 +120,37 @@ def read_beds(sense, dir, ref_seq):
 
                 if complete:
                     if sense == '+-':
-                        if row['NONAMER']['start'] < row['HEPTAMER']['start']:
+                        if row['nonamer']['start'] < row['heptamer']['start']:
                             g_s = 'end'
                             g_e = 'start'
                         else:
                             g_s = 'start'
                             g_e = 'end'
 
-                    if row['HEPTAMER'][g_e] != row['SPACER'][g_s]:
-                        print(f"maths problem in {gene}: row['HEPTAMER'][{g_e}] != row['SPACER'][{g_s}]")
-                    if row['SPACER'][g_e] != row['NONAMER'][g_s]:
-                        print(f"maths problem in {gene}: row['SPACER'][{g_e}] != row['NONAMER'][{g_s}]")
+                    if row['heptamer'][g_e] != row['spacer'][g_s]:
+                        print(f"maths problem in {gene}: row['heptamer'][{g_e}] != row['spacer'][{g_s}]")
+                    if row['spacer'][g_e] != row['nonamer'][g_s]:
+                        print(f"maths problem in {gene}: row['spacer'][{g_e}] != row['nonamer'][{g_s}]")
 
                 row['GENE'][g_e] -= GENE_WINDOW_SIZE_5
                 row['GENE'][g_s] += GENE_WINDOW_SIZE_3
 
             elif gene_type == 'D':
-                for el in ['3_HEPTAMER', '3_SPACER', '3_NONAMER', '5_HEPTAMER', '5_SPACER', '5_NONAMER']:
+                for el in ['3_heptamer', '3_spacer', '3_nonamer', '5_heptamer', '5_spacer', '5_nonamer']:
                     complete = True
                     if el not in row:
                         print(f'element {el} missing from row {row}')
                         complete = False
 
                     if complete:
-                        if row['3_NONAMER'][g_e] != row['3_SPACER'][g_s]:
-                            print(f"maths problem in {gene}: row['3_NONAMER'][{g_e}] != row['3_SPACER'][{g_s}]")
-                        if row['3_SPACER'][g_e] != row['3_HEPTAMER'][g_s]:
-                            print(f"maths problem in {gene}: row['3_SPACER'][{g_e}] != row['3_HEPTAMER'][{g_s}]")
-                        if row['5_HEPTAMER'][g_e] != row['5_SPACER'][g_s]:
-                            print(f"maths problem in {gene}: row['5_HEPTAMER'][{g_e}] != row['5_SPACER'][{g_s}]")
-                        if row['5_SPACER'][g_e] != row['5_NONAMER'][g_s]:
-                            print(f"maths problem in {gene}: row['5_SPACER'][{g_e}] != row['5_NONAMER'][{g_s}]")
+                        if row['3_nonamer'][g_e] != row['3_spacer'][g_s]:
+                            print(f"maths problem in {gene}: row['3_nonamer'][{g_e}] != row['3_spacer'][{g_s}]")
+                        if row['3_spacer'][g_e] != row['3_heptamer'][g_s]:
+                            print(f"maths problem in {gene}: row['3_spacer'][{g_e}] != row['3_heptamer'][{g_s}]")
+                        if row['5_heptamer'][g_e] != row['5_spacer'][g_s]:
+                            print(f"maths problem in {gene}: row['5_heptamer'][{g_e}] != row['5_spacer'][{g_s}]")
+                        if row['5_spacer'][g_e] != row['5_nonamer'][g_s]:
+                            print(f"maths problem in {gene}: row['5_spacer'][{g_e}] != row['5_nonamer'][{g_s}]")
 
                 row['GENE'][g_s] -= GENE_WINDOW_SIZE_5
                 row['GENE'][g_e] += GENE_WINDOW_SIZE_3

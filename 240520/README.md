@@ -12,4 +12,6 @@ Modifications to heavy chain loci (igh, ighc): No modifications to igh were made
 
 The ighc reference sequence is from CHM13v2.0, without modification.
 
+TRB region has been N-masked and is replaced with T2T region as a seperate 'trb' similar to 'igh' and 'ighc'.
+
 #to-do: add ancestry-informative markers BED file and "non-IGL_regions_to_mask" BED file
